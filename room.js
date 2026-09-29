@@ -8,7 +8,7 @@ const $ = q => document.querySelector(q);
   let seen = false;
   try { seen = sessionStorage.getItem('booted') === '1'; sessionStorage.setItem('booted', '1'); } catch {}
   if (still || seen) return box.remove();
-  const lines = ['loading agents', 'connecting to portals', 'reading 63,775 land rates', 'warming up the terrain', 'checking the inbox', 'all systems online'];
+  const lines = ['loading agents', 'connecting to portals', 'reading 63,775 land rates', 'warming up the terrain', 'checking the workflows', 'all systems online'];
   let i = 0, n = 0;
   const t = setInterval(() => {
     n = Math.min(100, n + 3 + Math.random() * 7);
@@ -29,7 +29,7 @@ const $ = q => document.querySelector(q);
   tick(); setInterval(tick, 1000);
 })();
 
-// "Today it's portals / inboxes / ..."
+// "Today it's portals / spreadsheets / ..."
 (function rotate() {
   const el = $('.rot');
   if (!el || still) return;
@@ -92,7 +92,7 @@ const $ = q => document.querySelector(q);
       ['agents', 'how I split work across agents'], ['stack', 'tools I use'], ['contact', 'how to reach me'], ['clear', 'wipe the screen'],
     ].map(([c, d]) => `<span class="k">${c.padEnd(11)}</span> ${d}`).join('\n')),
     whoami: () => say('Ram Yadav, Jaipur. I turn the steps people repeat every day into tools that do them.\nStarted in data entry in 2024. Building portal runners and agent workflows now.'),
-    projects: () => say(['Portal Entry Runner', 'Agent workflow (965 records)', 'Land rate from a map pin', 'Portal auto-fill', 'Dashboard in sentences', 'Auctions on one map']
+    projects: () => say(['Portal Entry Runner', 'Agent workflows', 'Land rate from a map pin', 'Portal auto-fill', 'Dashboard in sentences', 'Auctions on one map']
       .map((p, i) => `<span class="dim">0${i + 1}</span> ${p}`).join('\n')),
     stack: () => say([
       ['Python', 'Flask, SQLite, requests, openpyxl, PyMuPDF'], ['Web', 'JavaScript, Chrome extensions, Leaflet, Chart.js, Three.js'],

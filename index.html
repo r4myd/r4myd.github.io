@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ram Yadav – Automation Developer</title>
-<meta name="description" content="I build automation for portals, inboxes, spreadsheets and maps: Python, agent workflows and API integration. Based in Jaipur.">
+<meta name="description" content="I build automation for portals, spreadsheets, workflows and maps: Python, agent workflows and API integration. Based in Jaipur.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://techshipz.github.io/">
 <meta property="og:title" content="Ram Yadav – Automation Developer">
@@ -42,7 +42,7 @@
   <div class="wrap hero-in">
     <p class="hello">Hi, I’m</p>
     <h1>Ram</h1>
-    <p class="lede">I build automation for the dull part of a business. Today it’s <b class="rot" data-words="portals|inboxes|spreadsheets|maps|documents|dashboards">portals</b>.</p>
+    <p class="lede">I build automation for the dull part of a business. Today it’s <b class="rot" data-words="portals|spreadsheets|forms|workflows|maps|dashboards">portals</b>.</p>
     <p class="sub">Python, agent workflows and API integration. Based in Jaipur.</p>
     <p class="cta">
       <a class="btn" href="mailto:shriyadav1500@gmail.com?subject=Automation%20project">Start a project</a>
@@ -50,16 +50,16 @@
     </p>
   </div>
   <dl class="hero-stats wrap">
-    <div><dt>Records handled by one agent run</dt><dd data-count="965">965</dd></div>
+    <div><dt>Lender portals filled from one Excel file</dt><dd data-count="8">8</dd></div>
     <div><dt>Land rates searchable offline</dt><dd data-count="63775">63,775</dd></div>
     <div><dt>Folders sorted in a single day</dt><dd>2–3 lakh</dd></div>
   </dl>
 </section>
 
 <div class="band" aria-hidden="true"><div class="band-track">
-  <span>Portal automation</span><span>Agent workflows</span><span>API integration</span><span>Data extraction</span>
+  <span>Portal automation</span><span>Agent workflows</span><span>API integration</span><span>Workflow design</span>
   <span>Dashboards</span><span>Maps &amp; GIS</span><span>Chrome extensions</span><span>Python</span>
-  <span>Portal automation</span><span>Agent workflows</span><span>API integration</span><span>Data extraction</span>
+  <span>Portal automation</span><span>Agent workflows</span><span>API integration</span><span>Workflow design</span>
   <span>Dashboards</span><span>Maps &amp; GIS</span><span>Chrome extensions</span><span>Python</span>
 </div></div>
 
@@ -115,8 +115,8 @@
 <!-- ============ AGENTS ============ -->
 <article class="project wrap reveal" style="--c:var(--turq)" id="agents">
   <header class="p-head">
-    <h3>An agent workflow that doesn’t guess</h3>
-    <p class="p-sub">965 records pulled out of 19 different document formats, by agents working in parallel.</p>
+    <h3>Agent workflows that don’t guess</h3>
+    <p class="p-sub">How I run agents on big jobs: one written brief, parallel packets, self-checks, and a person signing off.</p>
   </header>
 
   <svg class="flow" viewBox="0 0 900 260" role="img" aria-label="One brief feeds parallel agents, whose output is checked and merged into one sheet">
@@ -143,12 +143,12 @@
 
   <div class="p-grid">
     <div class="p-copy">
-      <p>Before the runner could work, each case needed its figures pulled from a finished document: address, coordinates, areas, rates and totals. I split the list into packets and wrote one brief that every agent worked from.</p>
-      <p>The brief is the real work. Read-only access, no copying a value from another case, and a blank cell with a written reason whenever something can’t be proved. Each agent had to check ten of its own cases by hand before handing back, then run sweeps over its whole packet: every coordinate had to fall inside Rajasthan, rates had to be rates and totals had to be totals.</p>
+      <p>When a job is too big for one prompt, I don’t write a bigger prompt. I split the work into small packets, run agents on them in parallel, and give every agent the same written brief.</p>
+      <p>The brief is the real work: what done looks like, read-only access by default, no copying a value from one item to another, and a blank with a written reason whenever something can’t be proved. Every agent checks its own output before handing back, then plain code sweeps the merged result: ranges, totals and duplicate rows. A person signs off at the end.</p>
     </div>
     <dl class="facts">
-      <div><dt>Scale</dt><dd>965 records, 19 packets, 25 columns each</dd></div>
-      <div><dt>Approach</dt><dd>One script per format, run over the packet, then hand-checked against the signed PDF</dd></div>
+      <div><dt>Pattern</dt><dd>Brief → packets → parallel agents → self-checks → merge → human sign-off</dd></div>
+      <div><dt>Rules</dt><dd>Read-only by default, no guessing, every blank explained</dd></div>
     </dl>
   </div>
 </article>
@@ -207,7 +207,7 @@
   <div class="p-grid">
     <div class="p-copy">
       <p>36,000 case records sat in separate monthly spreadsheets. I loaded them into SQLite and built a dashboard on top: which clients are growing, which have gone quiet, how the month is tracking, which weekdays are busiest.</p>
-      <p>The alerts read like a colleague wrote them: “no cases from this client for 74 days, worth a call.” An assistant answers questions using only the firm’s own numbers.</p>
+      <p>The alerts read like a colleague wrote them: “no cases from this client for 74 days, worth a call.”</p>
     </div>
     <dl class="facts">
       <div><dt>Built with</dt><dd>Python, SQLite, Chart.js</dd></div>
@@ -243,8 +243,8 @@
 <section class="wrap more reveal">
   <h2 class="section-title">Smaller builds</h2>
   <div class="tools">
-    <article><h3>Inbox triage agent</h3><p>Sorts a busy inbox into new work, questions and billing, routes each to the right team with buttons to take or snooze it, and chases anything unanswered. Before building it I measured two years of mail: median reply time was 16.7 hours.</p><p class="stack">Apps Script, Llama 3.3, Telegram Bot API</p></article>
-    <article><h3>Email to portal intake</h3><p>Turns incoming request emails into new cases on a portal. Checks for duplicates, fills the bulk-upload sheet with validated values, uploads, then confirms every row actually arrived.</p><p class="stack">Python, requests, openpyxl</p></article>
+    <article><h3>Folder matcher</h3><p>Matched 2–3 lakh folders against a spreadsheet by normalising messy names and matching patterns. Anything with two possible matches went to a person instead of being guessed.</p><p class="stack">Python, pandas</p></article>
+    <article><h3>Portal bulk upload</h3><p>Fills a portal’s bulk-upload sheet with validated values, checks for duplicates, uploads it, then confirms every row actually arrived.</p><p class="stack">Python, requests, openpyxl</p></article>
     <article><h3>Digital signing queue</h3><p>Signs PDFs with a USB signature token from a queue with approval. It checks the token’s certificate before sending the PIN, so a wrong token can never get locked.</p><p class="stack">Python, pyHanko, PKCS#11</p></article>
     <article><h3>Invoice automation</h3><p>Watches case folders, works out each fee from its slab, fills the invoice and keeps the register in step. Built so that one case can only ever produce one invoice.</p><p class="stack">Python, openpyxl</p></article>
     <article><h3>Map image makers</h3><p>Coordinate in, ready-to-use map out: a plan-map crop or a satellite view with the same pin, legend and scale bar.</p><p class="stack">Python, Pillow, KML</p></article>
