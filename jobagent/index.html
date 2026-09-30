@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Agent – Ram Yadav</title>
+<meta name="description" content="The small agent I built to run my job search: it reads job posts, drafts applications from facts about me, gets every draft checked, and asks me before anything big.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://techshipz.github.io/jobagent/">
+<meta property="og:title" content="Job Agent – Ram Yadav">
+<meta property="og:description" content="How the agent behind my job applications works, and what it will never do.">
+<meta property="og:image" content="https://techshipz.github.io/img/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='5' width='22' height='22' fill='none' stroke='%23C0287A' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23C0287A'/%3E%3C/svg%3E">
+<style>
+  .ja-top { padding-bottom: 90px; }
+  .ja-top .lead { max-width: 30em; margin: 18px 0 0; font-size: clamp(1.15rem, 2vw, 1.45rem); color: rgba(255,255,255,.85); }
+  .ja-top .tag { display: inline-block; margin-top: 56px; padding: 6px 12px; border-radius: 999px; font: 600 .82rem var(--sans); letter-spacing: .04em; color: var(--night); background: var(--marigold); }
+  .ja-top h1 { margin-top: 14px; background-size: 220% 100%; animation: shimmer 9s linear infinite; }
+
+  .log { margin: 34px 0 0; max-width: 40em; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font: 500 .9rem/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace; color: rgba(255,255,255,.82); min-height: 11.5em; }
+  .log p { margin: 0; display: grid; grid-template-columns: 3.4em 1fr; gap: .6em; }
+  .log p b { font-weight: 500; color: rgba(255,255,255,.45); }
+  .log .t { color: var(--turq); } .log .y { color: var(--marigold); } .log .p { color: var(--pink); }
+  .log .caret { display: inline-block; width: .55em; height: 1.05em; vertical-align: -2px; background: var(--marigold); animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .ja { padding: 70px 0 20px; }
+  .ja .section-title { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; font-stretch: 115%; letter-spacing: -.02em; margin-bottom: 14px; }
+  .ja .intro { max-width: 40em; color: var(--muted); font-size: 1.15rem; margin: 0 0 36px; }
+  .flow .nodes rect:nth-of-type(n) { fill: #fff; stroke: var(--rule); }
+  .flow .n1 { fill: #E6FAF8 !important; stroke: var(--turq) !important; }
+  .flow .n2 { fill: #EEF1FF !important; stroke: var(--blue) !important; }
+  .flow .n3 { fill: #F3ECFF !important; stroke: var(--violet) !important; }
+  .flow .n4 { fill: #FFE9F3 !important; stroke: var(--pink) !important; }
+  .flow .n5 { fill: #FFF1E3 !important; stroke: var(--saffron) !important; }
+  .flow .n6 { fill: var(--pink) !important; stroke: var(--pink) !important; }
+  .flow .n6 + text { fill: #fff; }
+
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .card { --c: var(--turq); padding: 26px 26px 22px; border-radius: 22px; background: var(--panel); border: 1px solid var(--rule); box-shadow: 0 18px 40px -30px color-mix(in srgb, var(--c) 70%, transparent); transition: transform .45s var(--ease), box-shadow .45s; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -28px color-mix(in srgb, var(--c) 80%, transparent); }
+  .card h3 { font-size: 1.25rem; font-weight: 750; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+  .card h3::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
+  .card p { margin: 0; }
+  .card ul { margin: 0; padding-left: 1.1em; }
+  .card li + li { margin-top: 6px; }
+
+  .never { --c: var(--pink); background: color-mix(in srgb, var(--pink) 7%, var(--panel)); border-color: color-mix(in srgb, var(--pink) 30%, transparent); }
+  .stack { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .stack li { padding: 8px 14px; border-radius: 999px; font: 600 .92rem var(--sans); background: color-mix(in srgb, var(--c, var(--violet)) 10%, var(--panel)); border: 1px solid color-mix(in srgb, var(--c, var(--violet)) 35%, transparent); }
+  .stack li:nth-child(6n+1) { --c: var(--turq); } .stack li:nth-child(6n+2) { --c: var(--blue); } .stack li:nth-child(6n+3) { --c: var(--violet); }
+  .stack li:nth-child(6n+4) { --c: var(--pink); } .stack li:nth-child(6n+5) { --c: var(--saffron); } .stack li:nth-child(6n+6) { --c: var(--marigold); }
+
+  .note { margin: 60px 0 10px; padding: 30px; border-radius: 24px; background: var(--night); color: #fff; position: relative; overflow: hidden; }
+  .note::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 90% at 90% 10%, rgba(255,46,136,.35), transparent 70%), radial-gradient(40% 80% at 0% 100%, rgba(0,191,179,.3), transparent 70%); }
+  .note > * { position: relative; }
+  .note h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; margin: 0 0 10px; }
+  .note p { margin: 0 0 18px; max-width: 38em; color: rgba(255,255,255,.85); }
+  .note .cta { margin: 0; }
+
+  .steps { display: none; margin: 0; padding: 0; list-style: none; counter-reset: s; font-family: var(--sans); }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  .steps li::before { content: counter(s, decimal-leading-zero); font-weight: 700; color: var(--pink); }
+  .steps b { display: block; } .steps span { color: var(--muted); font-size: .92rem; }
+  @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } .flow-wrap { display: none; } .steps { display: block; } .log { font-size: .8rem; } }
+  @media (prefers-reduced-motion: reduce) { .ja-top h1, .log .caret { animation: none; } .card { transition: none; } }
+</style>
+</head>
+<body>
+<header class="legal-top ja-top">
+  <div class="wrap">
+    <div class="bar"><a href="../">Ram Yadav</a><a href="../">← Back to the portfolio</a></div>
+    <span class="tag">You probably got here from my email</span>
+    <h1>Job Agent</h1>
+    <p class="lead">I built a small agent to run my job search. It finds the posts, writes the first draft, and hands the real decisions to me.</p>
+    <div class="log" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+<section class="wrap ja reveal">
+  <h2 class="section-title">One scan, start to finish</h2>
+  <p class="intro">Every two hours during my working day it runs one scan. Most of it is plain Python; the agent does the reading and writing, and it can only use what I’ve written down about myself.</p>
+  <div class="flow-wrap">
+  <svg class="flow" viewBox="0 0 900 200" role="img" aria-label="Job post, score, draft, review, Ram's yes or a rule-checked send, tracker">
+    <g class="edges">
+      <path d="M130 100 L165 100"/><path d="M275 100 L310 100"/><path d="M420 100 L455 100"/>
+      <path d="M565 100 C590 100 590 50 615 50"/><path d="M565 100 C590 100 590 150 615 150"/>
+      <path d="M735 50 C760 50 760 100 785 100"/><path d="M735 150 C760 150 760 100 785 100"/>
+    </g>
+    <g class="nodes">
+      <rect class="n1" x="20" y="72" width="110" height="56" rx="10"/><text x="75" y="96">Job post</text><text class="s" x="75" y="114">board, mail, site</text>
+      <rect class="n2" x="165" y="72" width="110" height="56" rx="10"/><text x="220" y="96">Score</text><text class="s" x="220" y="114">0–100, my rules</text>
+      <rect class="n3" x="310" y="72" width="110" height="56" rx="10"/><text x="365" y="96">Draft</text><text class="s" x="365" y="114">for this role only</text>
+      <rect class="n4" x="455" y="72" width="110" height="56" rx="10"/><text x="510" y="96">Review</text><text class="s" x="510" y="114">second agent</text>
+      <rect class="n5" x="615" y="24" width="120" height="52" rx="10"/><text x="675" y="46">My yes</text><text class="s" x="675" y="63">portals, profiles</text>
+      <rect class="n5" x="615" y="124" width="120" height="52" rx="10"/><text x="675" y="146">Mail</text><text class="s" x="675" y="163">hiring address only</text>
+      <rect class="n6" x="785" y="72" width="100" height="56" rx="10"/><text x="835" y="105">Tracker</text>
+    </g>
+  </svg>
+  </div>
+  <ol class="steps">
+    <li><div><b>Job post</b><span>from a board, an alert mail or a company site</span></div></li>
+    <li><div><b>Score</b><span>0–100 against my rules; below 60 is logged and dropped</span></div></li>
+    <li><div><b>Draft</b><span>written for this role only, from facts about me</span></div></li>
+    <li><div><b>Review</b><span>a second agent checks every line</span></div></li>
+    <li><div><b>My yes, or a rule-checked mail</b><span>portals and profiles wait for me; mail goes only to a published hiring address</span></div></li>
+    <li><div><b>Tracker</b><span>one record per job, so nothing is sent twice</span></div></li>
+  </ol>
+</section>
+
+<section class="wrap ja reveal">
+  <h2 class="section-title">What it does</h2>
+  <div class="cards">
+    <article class="card" style="--c:var(--turq)"><h3>Finds the right posts</h3><p>It looks for automation and agent workflow roles on job boards, company pages and the alerts in my inbox, and drops anything outside what I do before it scores the rest.</p></article>
+    <article class="card" style="--c:var(--blue)"><h3>Writes one draft per role</h3><p>Posts that score 60 or more get a draft written for that company only. It works from a file of facts about me, and anything the file doesn’t back up is left blank for me to fill.</p></article>
+    <article class="card" style="--c:var(--violet)"><h3>Gets checked before it leaves</h3><p>A second agent reads every draft and fails it for a claim it can’t trace, a line that sounds like a template, or a company it didn’t actually name. Most drafts go round two or three times.</p></article>
+    <article class="card" style="--c:var(--saffron)"><h3>Keeps me in the loop</h3><p>Replies, interview invites and good matches reach my phone on Telegram with a button that opens the mail. Everything it does lands in one tracker, so nothing gets applied to twice.</p></article>
+  </div>
+</section>
+
+<section class="wrap ja reveal">
+  <h2 class="section-title">What it never does</h2>
+  <div class="cards">
+    <article class="card never"><h3>Hard lines</h3><ul>
+      <li>Never signs in anywhere or types a password, OTP or captcha. I do the logins.</li>
+      <li>Never submits a portal application or edits a profile without my yes.</li>
+      <li>Never claims a skill, number or project I haven’t written down.</li>
+    </ul></article>
+    <article class="card never"><h3>Mail limits</h3><ul>
+      <li>Only writes to a hiring address published in the job post, or to someone who wrote to me first.</li>
+      <li>At most five application mails a day, no mass-applying.</li>
+      <li>One follow-up at most, and never the same company twice in a week.</li>
+    </ul></article>
+  </div>
+</section>
+
+<section class="wrap ja reveal">
+  <h2 class="section-title">What it’s built with</h2>
+  <p class="intro">Nothing runs in the cloud. It lives in a Claude Code session on my laptop and stops when I close it at night.</p>
+  <ul class="stack">
+    <li>Claude Code, on a loop</li><li>Python</li><li>IMAP / SMTP</li><li>SQLite tracker</li><li>Telegram Bot API</li><li>Chrome for job boards</li>
+    <li>Written briefs and rules</li><li>Reviewer agent</li><li>Human sign-off</li>
+  </ul>
+
+  <div class="note">
+    <h2>If it wrote to you</h2>
+    <p>The mail came from my own inbox, and your reply comes straight to me. I read every one myself. If you’d like to talk about the role, or about building something like this for your team, just reply.</p>
+    <p class="cta"><a class="btn" href="mailto:shriyadav1500@gmail.com">shriyadav1500@gmail.com</a><a class="btn ghost" href="../">See my other work</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <p>© 2026 Ram Yadav</p>
+  <nav class="foot-links"><a class="resume-btn" href="../resume.pdf" target="_blank" rel="noopener">Resume <span aria-hidden="true">↗</span></a><a href="../">Home</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></nav>
+</footer>
+
+<script>
+(() => {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); }
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+    els.forEach(e => io.observe(e));
+  }
+
+  const log = document.querySelector('.log');
+  const lines = [
+    ['t', '09:30', 'scan started'],
+    ['', '', 'mail: 14 new, 9 to trash, 1 from a recruiter'],
+    ['', '', 'jobs: 23 found, 17 dropped by the filters'],
+    ['y', '', 'score 82, automation engineer, remote → draft'],
+    ['', '', 'reviewer: FIX (2 lines) → fixed → PASS'],
+    ['p', '', 'telegram → "apply to this one? yes / no"'],
+  ];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const add = (cls, time, text) => {
+    const p = document.createElement('p'); if (cls) p.className = cls;
+    const b = document.createElement('b'); b.textContent = time; const s = document.createElement('span'); s.textContent = text;
+    p.append(b, s); log.appendChild(p); return s;
+  };
+  if (still) { lines.forEach(l => add(...l)); return; }
+  let i = 0;
+  const caret = document.createElement('span'); caret.className = 'caret';
+  const next = () => {
+    if (i === lines.length) { setTimeout(() => { log.textContent = ''; i = 0; next(); }, 4200); return; }
+    const [cls, time, text] = lines[i++]; const p = add(cls, time, ''); let k = 0;
+    const type = () => { p.textContent = text.slice(0, ++k); p.appendChild(caret); k < text.length ? setTimeout(type, 16) : setTimeout(next, 520); };
+    type();
+  };
+  next();
+})();
+</script>
+</body>
+</html>
