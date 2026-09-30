@@ -21,9 +21,11 @@
   .ja-top .tag { display: inline-block; margin-top: 56px; padding: 6px 12px; border-radius: 999px; font: 600 .82rem var(--sans); letter-spacing: .04em; color: var(--night); background: var(--marigold); }
   .ja-top h1 { margin-top: 14px; background-size: 220% 100%; animation: shimmer 9s linear infinite; }
 
-  .log { margin: 34px 0 0; max-width: 40em; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font: 500 .9rem/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace; color: rgba(255,255,255,.82); min-height: 16.8em; }
+  .log { margin: 34px 0 0; max-width: 40em; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font: 500 .9rem/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace; color: rgba(255,255,255,.82); }
   .log p { margin: 0; display: grid; grid-template-columns: 3.4em 1fr; gap: .6em; }
   .log p b { font-weight: 500; color: rgba(255,255,255,.45); }
+  .log p.wait { visibility: hidden; }
+  .log .rest { visibility: hidden; }
   .log .t { color: var(--turq); } .log .y { color: var(--marigold); } .log .p { color: var(--pink); }
   .log .caret { display: inline-block; width: .55em; height: 1.05em; vertical-align: -2px; background: var(--marigold); animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
@@ -184,18 +186,27 @@
     ['t', '', 'yes → applied on the portal, mail sent, tracker updated'],
   ];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const add = (cls, time, text) => {
-    const p = document.createElement('p'); if (cls) p.className = cls;
-    const b = document.createElement('b'); b.textContent = time; const s = document.createElement('span'); s.textContent = text;
-    p.append(b, s); log.appendChild(p); return s;
-  };
-  if (still) { lines.forEach(l => add(...l)); return; }
-  let i = 0;
+  // Every line is laid out up front (hidden) so the box never changes height while it types.
+  const rows = lines.map(([cls, time, text]) => {
+    const p = document.createElement('p'); p.className = (cls ? cls + ' ' : '') + 'wait';
+    const b = document.createElement('b'); b.textContent = time;
+    const s = document.createElement('span'); const done = document.createElement('span'); const rest = document.createElement('span');
+    rest.className = 'rest'; rest.textContent = text; s.append(done, rest);
+    p.append(b, s); log.appendChild(p);
+    return { p, done, rest, text };
+  });
+  if (still) { rows.forEach(r => { r.p.classList.remove('wait'); r.done.textContent = r.text; r.rest.textContent = ''; }); return; }
   const caret = document.createElement('span'); caret.className = 'caret';
+  let i = 0;
+  const reset = () => rows.forEach(r => { r.p.classList.add('wait'); r.done.textContent = ''; r.rest.textContent = r.text; });
   const next = () => {
-    if (i === lines.length) { setTimeout(() => { log.textContent = ''; i = 0; next(); }, 4200); return; }
-    const [cls, time, text] = lines[i++]; const p = add(cls, time, ''); let k = 0;
-    const type = () => { p.textContent = text.slice(0, ++k); p.appendChild(caret); k < text.length ? setTimeout(type, 16) : setTimeout(next, 520); };
+    if (i === rows.length) { setTimeout(() => { reset(); i = 0; next(); }, 4200); return; }
+    const r = rows[i++]; r.p.classList.remove('wait'); let k = 0;
+    const type = () => {
+      k++; r.done.textContent = r.text.slice(0, k); r.rest.textContent = r.text.slice(k);
+      r.done.after(caret);
+      k < r.text.length ? setTimeout(type, 16) : setTimeout(next, 520);
+    };
     type();
   };
   next();
