@@ -92,7 +92,7 @@ const $ = q => document.querySelector(q);
       ['agents', 'how I split work across agents'], ['stack', 'tools I use'], ['contact', 'how to reach me'], ['clear', 'wipe the screen'],
     ].map(([c, d]) => `<span class="k">${c.padEnd(11)}</span> ${d}`).join('\n')),
     whoami: () => say('Ram Yadav, Jaipur. I turn the steps people repeat every day into tools that do them.\nStarted in data entry in 2024. Building portal runners and agent workflows now.'),
-    projects: () => say(['Portal Entry Runner', 'Agent workflows', 'Land rate from a map pin', 'Portal auto-fill', 'Dashboard in sentences', 'Auctions on one map']
+    projects: () => say(['Portal Entry Runner', 'Case pipeline that runs the day', 'Agent workflows', 'Land rate from a map pin', 'Portal auto-fill', 'Dashboard in sentences', 'Auctions on one map']
       .map((p, i) => `<span class="dim">0${i + 1}</span> ${p}`).join('\n')),
     stack: () => say([
       ['Python', 'Flask, SQLite, requests, openpyxl, PyMuPDF'], ['Web', 'JavaScript, Chrome extensions, Leaflet, Chart.js, Three.js'],

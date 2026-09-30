@@ -72,6 +72,7 @@
   <p class="section-lede">Real tools, running every day. Names and figures in the screenshots are sample data.</p>
   <ol class="index">
     <li><a href="#p-runner" data-img="img/entry-queue.webp" style="--c:var(--saffron)"><span>Portal Entry Runner</span><em>Python, SQLite</em><b>2026</b></a></li>
+    <li><a href="#p-pipeline" data-img="img/pipeline.webp" style="--c:var(--violet)"><span>A pipeline that runs the day</span><em>Orchestration, Python</em><b>2026</b></a></li>
     <li><a href="#agents" data-img="img/agents-flow.webp" style="--c:var(--turq)"><span>Agent workflow</span><em>Agents, API integration</em><b>2026</b></a></li>
     <li><a href="#p-land" data-img="img/dlc-lookup.webp" style="--c:var(--pink)"><span>Land rate from a map pin</span><em>Python, GIS</em><b>2026</b></a></li>
     <li><a href="#p-fill" data-img="img/ext-popup.webp" style="--c:var(--blue)"><span>Portal auto-fill</span><em>Chrome extension</em><b>2026</b></a></li>
@@ -110,6 +111,44 @@
   </div>
   <figure class="shot tilt"><button class="zoom" type="button"><img src="img/entry-queue.webp" alt="Entry queue with progress by state and a list of cases" width="1440" height="900" loading="lazy"></button>
     <figcaption>The control panel: progress by state, filters, and each case’s last step.</figcaption></figure>
+</article>
+
+<!-- ============ PIPELINE ============ -->
+<article class="project wrap reveal" style="--c:var(--violet)" id="p-pipeline">
+  <header class="p-head">
+    <h3>A pipeline that runs the day</h3>
+    <p class="p-sub">One manager on a ten-minute clock, a worker for every case, and guards that stop the line instead of guessing.</p>
+  </header>
+
+  <svg class="flow" viewBox="0 0 900 260" role="img" aria-label="A ten-minute tick checks the portal against the case board, hands each case to its own worker, and sends findings to a review page a person approves">
+    <g class="edges">
+      <path d="M150 130 L200 130"/>
+      <path d="M340 130 C380 130 380 60 420 60"/><path d="M340 130 L420 130"/><path d="M340 130 C380 130 380 200 420 200"/>
+      <path d="M560 60 C600 60 600 130 640 130"/><path d="M560 130 L640 130"/><path d="M560 200 C600 200 600 130 640 130"/>
+      <path d="M760 130 L790 130"/>
+    </g>
+    <g class="nodes">
+      <rect x="30" y="102" width="120" height="56" rx="8"/><text x="90" y="126">Tick</text><text class="s" x="90" y="144">every 10 min</text>
+      <rect x="200" y="102" width="140" height="56" rx="8"/><text x="270" y="126">Reconcile</text><text class="s" x="270" y="144">portal vs board</text>
+      <rect x="420" y="42" width="140" height="36" rx="18"/><rect x="420" y="112" width="140" height="36" rx="18"/><rect x="420" y="182" width="140" height="36" rx="18"/>
+      <text x="490" y="65">Worker · case 1</text><text x="490" y="135">Worker · case 2</text><text x="490" y="205">Worker · case 3</text>
+      <rect x="640" y="102" width="120" height="56" rx="8"/><text x="700" y="126">Review page</text><text class="s" x="700" y="144">findings</text>
+      <rect class="end" style="fill:var(--pink);stroke:var(--pink)" x="790" y="102" width="90" height="56" rx="8"/><text x="835" y="135">Approved</text>
+    </g>
+  </svg>
+
+  <div class="p-grid">
+    <div class="p-copy">
+      <p>Every ten minutes a manager session runs one tick. It reads the portal, checks it against the case board, and hands each new case to its own worker, so several cases move at once and the manager never gets stuck on one.</p>
+      <p>The guards matter more than the speed. If the portal sends back half a page, the tick tries once more and then refuses to act. The board has a single writer and an event log, so there is only ever one version of the truth, and nothing touches a case a worker is still on. The field team gets their cases on a Telegram bot. Issues found by review agents land on a review page and become rules only after a person approves them.</p>
+      <p>It starts from a desktop shortcut or a one-line Telegram message, and stops itself at eight in the evening.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Pattern</dt><dd>Tick → reconcile → one worker per case → review → human approval</dd></div>
+      <div><dt>Guards</dt><dd>Refuses partial data, single writer, never touches work in progress</dd></div>
+      <div><dt>Stack</dt><dd>Python, SQLite, Telegram Bot API, Windows services</dd></div>
+    </dl>
+  </div>
 </article>
 
 <!-- ============ AGENTS ============ -->
@@ -248,6 +287,7 @@
     <article><h3>Digital signing queue</h3><p>Signs PDFs with a USB signature token from a queue with approval. It checks the token’s certificate before sending the PIN, so a wrong token can never get locked.</p><p class="stack">Python, pyHanko, PKCS#11</p></article>
     <article><h3>Invoice automation</h3><p>Watches case folders, works out each fee from its slab, fills the invoice and keeps the register in step. Built so that one case can only ever produce one invoice.</p><p class="stack">Python, openpyxl</p></article>
     <article><h3>Map image makers</h3><p>Coordinate in, ready-to-use map out: a plan-map crop or a satellite view with the same pin, legend and scale bar.</p><p class="stack">Python, Pillow, KML</p></article>
+    <article><h3>Safe push to a shared server</h3><p>Pushes finished files to the office server and keeps a ledger of every push. If someone changed the file on the server in the meantime, the push stops instead of writing over their work.</p><p class="stack">PowerShell</p></article>
     <article><h3>Nearby records and RERA</h3><p>Finds the closest of 31,500 past records to any point, and pulls every RERA project in Jaipur into a sheet and Google Earth.</p><p class="stack">Python, SQLite</p></article>
   </div>
 </section>
