@@ -40,6 +40,10 @@
   .flow .n6 { fill: var(--pink) !important; stroke: var(--pink) !important; }
   .flow .n6 + text { fill: #fff; }
 
+  .why { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 20px 60px; align-items: start; }
+  .why .section-title { background: var(--rainbow); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .why-copy p { margin: 0 0 16px; font-size: 1.15rem; }
+  .why-copy .why-last { padding: 16px 20px; border-left: 4px solid var(--pink); border-radius: 0 14px 14px 0; background: color-mix(in srgb, var(--pink) 7%, var(--panel)); font-family: var(--sans); font-weight: 600; font-size: 1.05rem; }
   .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .card { --c: var(--turq); padding: 26px 26px 22px; border-radius: 22px; background: var(--panel); border: 1px solid var(--rule); box-shadow: 0 18px 40px -30px color-mix(in srgb, var(--c) 70%, transparent); transition: transform .45s var(--ease), box-shadow .45s; }
   .card:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -28px color-mix(in srgb, var(--c) 80%, transparent); }
@@ -67,7 +71,7 @@
   .steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem 1fr; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
   .steps li::before { content: counter(s, decimal-leading-zero); font-weight: 700; color: var(--pink); }
   .steps b { display: block; } .steps span { color: var(--muted); font-size: .92rem; }
-  @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } .flow-wrap { display: none; } .steps { display: block; } .log { font-size: .8rem; } }
+  @media (max-width: 760px) { .cards, .why { grid-template-columns: 1fr; } .flow-wrap { display: none; } .steps { display: block; } .log { font-size: .8rem; } }
   @media (prefers-reduced-motion: reduce) { .ja-top h1, .log .caret { animation: none; } .card { transition: none; } }
 </style>
 </head>
@@ -77,12 +81,21 @@
     <div class="bar"><a href="../">Ram Yadav</a><a href="../">← Back to the portfolio</a></div>
     <span class="tag">You probably got here from my email</span>
     <h1>Job Agent</h1>
-    <p class="lead">I built a small agent to run my job search. It finds the posts, writes the first draft, and hands the real decisions to me.</p>
+    <p class="lead">Automating repetitive work is what I do for a living. It would be strange to run my own job search by hand.</p>
     <div class="log" aria-hidden="true"></div>
   </div>
 </header>
 
 <main>
+<section class="wrap ja why reveal">
+  <h2 class="section-title">Why I built it</h2>
+  <div class="why-copy">
+    <p>A job search is mostly the kind of work I automate for others: checking the same boards every day, sorting mail, typing the same details into one form after another. So I gave that part to an agent.</p>
+    <p>The time it saves goes into the part a machine shouldn’t do: picking the companies I actually want, fixing drafts that don’t sound like me, and getting ready for the calls. I set the rules for which roles it goes after and who it may write to, every portal application waits for my yes, and your reply comes straight to me.</p>
+    <p class="why-last">If you’re hiring someone to automate your team’s work, this is the most honest sample I have: a real problem, a working system, and I use it every day.</p>
+  </div>
+</section>
+
 <section class="wrap ja reveal">
   <h2 class="section-title">One scan, start to finish</h2>
   <p class="intro">Every two hours during my working day it runs one scan. Most of it is plain Python; the agent does the reading and writing, and it can only use what I’ve written down about myself.</p>
