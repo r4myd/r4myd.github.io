@@ -21,7 +21,7 @@
   .ja-top .tag { display: inline-block; margin-top: 56px; padding: 6px 12px; border-radius: 999px; font: 600 .82rem var(--sans); letter-spacing: .04em; color: var(--night); background: var(--marigold); }
   .ja-top h1 { margin-top: 14px; background-size: 220% 100%; animation: shimmer 9s linear infinite; }
 
-  .log { margin: 34px 0 0; max-width: 40em; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font: 500 .9rem/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace; color: rgba(255,255,255,.82); min-height: 15em; }
+  .log { margin: 34px 0 0; max-width: 40em; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font: 500 .9rem/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace; color: rgba(255,255,255,.82); min-height: 16.8em; }
   .log p { margin: 0; display: grid; grid-template-columns: 3.4em 1fr; gap: .6em; }
   .log p b { font-weight: 500; color: rgba(255,255,255,.45); }
   .log .t { color: var(--turq); } .log .y { color: var(--marigold); } .log .p { color: var(--pink); }
@@ -87,7 +87,7 @@
   <h2 class="section-title">One scan, start to finish</h2>
   <p class="intro">Every two hours during my working day it runs one scan. Most of it is plain Python; the agent does the reading and writing, and it can only use what I’ve written down about myself.</p>
   <div class="flow-wrap">
-  <svg class="flow" viewBox="0 0 900 200" role="img" aria-label="Job post, score, draft, review, Ram's yes or a rule-checked send, tracker">
+  <svg class="flow" style="--c:var(--violet)" viewBox="0 0 900 200" role="img" aria-label="Job post, score, draft, review, then apply after Ram's yes and mail the hiring address, then tracker">
     <g class="edges">
       <path d="M130 100 L165 100"/><path d="M275 100 L310 100"/><path d="M420 100 L455 100"/>
       <path d="M565 100 C590 100 590 50 615 50"/><path d="M565 100 C590 100 590 150 615 150"/>
@@ -98,8 +98,8 @@
       <rect class="n2" x="165" y="72" width="110" height="56" rx="10"/><text x="220" y="96">Score</text><text class="s" x="220" y="114">0–100, my rules</text>
       <rect class="n3" x="310" y="72" width="110" height="56" rx="10"/><text x="365" y="96">Draft</text><text class="s" x="365" y="114">for this role only</text>
       <rect class="n4" x="455" y="72" width="110" height="56" rx="10"/><text x="510" y="96">Review</text><text class="s" x="510" y="114">second agent</text>
-      <rect class="n5" x="615" y="24" width="120" height="52" rx="10"/><text x="675" y="46">My yes</text><text class="s" x="675" y="63">portals, profiles</text>
-      <rect class="n5" x="615" y="124" width="120" height="52" rx="10"/><text x="675" y="146">Mail</text><text class="s" x="675" y="163">hiring address only</text>
+      <rect class="n5" x="615" y="24" width="120" height="52" rx="10"/><text x="675" y="46">Apply</text><text class="s" x="675" y="63">after my yes</text>
+      <rect class="n5" x="615" y="124" width="120" height="52" rx="10"/><text x="675" y="146">Mail</text><text class="s" x="675" y="163">to the hiring address</text>
       <rect class="n6" x="785" y="72" width="100" height="56" rx="10"/><text x="835" y="105">Tracker</text>
     </g>
   </svg>
@@ -109,7 +109,7 @@
     <li><div><b>Score</b><span>0–100 against my rules; below 60 is logged and dropped</span></div></li>
     <li><div><b>Draft</b><span>written for this role only, from facts about me</span></div></li>
     <li><div><b>Review</b><span>a second agent checks every line</span></div></li>
-    <li><div><b>My yes, or a rule-checked mail</b><span>portals and profiles wait for me; mail goes only to a published hiring address</span></div></li>
+    <li><div><b>Apply and mail</b><span>it fills the application once I say yes, and mails the hiring address from the post</span></div></li>
     <li><div><b>Tracker</b><span>one record per job, so nothing is sent twice</span></div></li>
   </ol>
 </section>
@@ -120,10 +120,11 @@
     <article class="card" style="--c:var(--turq)"><h3>Finds the right posts</h3><p>It looks for automation and agent workflow roles on job boards, company pages and the alerts in my inbox, and drops anything outside what I do before it scores the rest.</p></article>
     <article class="card" style="--c:var(--blue)"><h3>Writes one draft per role</h3><p>Posts that score 60 or more get a draft written for that company only. It works from a file of facts about me, and anything the file doesn’t back up is left blank for me to fill.</p></article>
     <article class="card" style="--c:var(--violet)"><h3>Gets checked before it leaves</h3><p>A second agent reads every draft and fails it for a claim it can’t trace, a line that sounds like a template, or a company it didn’t actually name. Most drafts go round two or three times.</p></article>
+    <article class="card" style="--c:var(--saffron)"><h3>Applies for me</h3><p>Once I say yes on Telegram, it fills the application on the company’s portal or Easy Apply, attaches my resume, and mails the hiring address from the post with the same tailored note.</p></article>
     <article class="card" style="--c:var(--pink)"><h3>Handles the job portals</h3><p>Every scan it checks LinkedIn, Naukri, Indeed and the other boards for new posts, recruiter messages and profile views, and pulls anything that needs me to the top.</p></article>
     <article class="card" style="--c:var(--marigold)"><h3>Keeps my profiles current</h3><p>My resume, portfolio and portal profiles all say the same thing. When something goes stale it fixes it, and it refreshes Naukri every week so the profile doesn’t sink.</p></article>
     <article class="card" style="--c:var(--violet)"><h3>Reads the news</h3><p>Once a day it writes me a short digest on agents, automation hiring and the tools I use. If something big lands, I hear about it the same day.</p></article>
-    <article class="card wide" style="--c:var(--saffron)"><h3>Keeps me in the loop</h3><p>After every scan I get a short update on Telegram: mail, applications, new jobs, news. Replies and interview invites come with a button that opens the mail, and everything lands in one tracker, so nothing gets applied to twice.</p></article>
+    <article class="card" style="--c:var(--blue)"><h3>Keeps me in the loop</h3><p>After every scan I get a short update on Telegram: mail, applications, new jobs, news. Replies and interview invites come with a button that opens the mail, and everything lands in one tracker, so nothing gets applied to twice.</p></article>
   </div>
 </section>
 
@@ -167,6 +168,7 @@
     ['', '', 'naukri, indeed, linkedin: 2 profile views, 0 messages'],
     ['', '', 'news: digest saved'],
     ['p', '', 'telegram → "apply to this one? yes / no"'],
+    ['t', '', 'yes → applied on the portal, mail sent, tracker updated'],
   ];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const add = (cls, time, text) => {
