@@ -34,7 +34,23 @@ const $ = q => document.querySelector(q);
   const el = $('.rot');
   if (!el || still) return;
   const words = el.dataset.words.split('|');
+  const line = el.closest('p');
   let i = 0;
+
+  // keep the paragraph as tall as its longest word, so nothing below it jumps on phones
+  const reserve = () => {
+    const shown = el.textContent;
+    line.style.minHeight = '';
+    let tallest = 0;
+    for (const w of words) { el.textContent = w; tallest = Math.max(tallest, line.offsetHeight); }
+    el.textContent = shown;
+    line.style.minHeight = tallest + 'px';
+  };
+  reserve();
+  document.fonts.ready.then(reserve);
+  let wait;
+  addEventListener('resize', () => { clearTimeout(wait); wait = setTimeout(reserve, 150); });
+
   setInterval(() => {
     el.classList.add('out');
     setTimeout(() => { el.textContent = words[i = (i + 1) % words.length]; el.classList.remove('out'); }, 300);
