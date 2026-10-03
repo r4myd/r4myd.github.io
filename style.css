@@ -325,3 +325,29 @@ code { font-family: ui-monospace, Consolas, monospace; background: color-mix(in 
 
 html.booted .boot { display: none; }
 .cube-wrap:active { cursor: grabbing; }
+
+/* ---------- theme switch ---------- */
+.theme-btn { display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border-radius: 50%; cursor: pointer; color: #fff; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); backdrop-filter: blur(8px); transition: transform .45s var(--ease), background .3s; }
+.theme-btn:hover { background: rgba(255,255,255,.2); transform: rotate(-18deg); }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .i-sun { display: none; }
+
+/* ---------- dark theme: system setting, or the switch (data-theme) ---------- */
+:root[data-theme="dark"] {
+  --paper: #0D0A24; --panel: #18133A; --ink: #EEEAFF; --muted: #ABA4CC; --rule: #2C2558; --link: #B794FF;
+  color-scheme: dark;
+}
+:root[data-theme="dark"] .theme-btn .i-moon { display: none; }
+:root[data-theme="dark"] .theme-btn .i-sun { display: block; }
+:root[data-theme="dark"] .cursor { mix-blend-mode: normal; }
+:root[data-theme="dark"] .legal a:not(.btn) { color: var(--link); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0D0A24; --panel: #18133A; --ink: #EEEAFF; --muted: #ABA4CC; --rule: #2C2558; --link: #B794FF;
+    color-scheme: dark;
+  }
+  :root:not([data-theme="light"]) .theme-btn .i-moon { display: none; }
+  :root:not([data-theme="light"]) .theme-btn .i-sun { display: block; }
+  :root:not([data-theme="light"]) .cursor { mix-blend-mode: normal; }
+  :root:not([data-theme="light"]) .legal a:not(.btn) { color: var(--link); }
+}
