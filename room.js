@@ -99,7 +99,7 @@ const $ = q => document.querySelector(q);
       ['Agents', 'briefs, packets, self-checks, API integration'], ['GIS', 'QGIS, ArcGIS, ArcGIS REST, KML'],
     ].map(([k, v]) => `<span class="g">${k.padEnd(7)}</span>${v}`).join('\n')),
     agents: () => say('1 brief -> 19 packets -> agents in parallel -> checks -> 1 sheet\nThe rule that matters most: <span class="p">if you can’t prove it, leave it blank and say why.</span>'),
-    contact: () => say(`mail     <a href="mailto:${mail}">${mail}</a>\nlinkedin <a href="http://www.linkedin.com/in/yadav00ram">linkedin.com/in/yadav00ram</a>\ngithub   <a href="https://github.com/techshipz">github.com/techshipz</a>`),
+    contact: () => say(`mail     <a href="mailto:${mail}">${mail}</a>\nlinkedin <a href="http://www.linkedin.com/in/yadav00ram">linkedin.com/in/yadav00ram</a>\ngithub   <a href="https://github.com/r4myd">github.com/r4myd</a>`),
     clear: () => { out.innerHTML = ''; },
     'run runner': async () => {
       for (const step of ['open', 'rework', 'pick', 'pin on map', 'upload', 'fill form', 'submit', 'send']) {
