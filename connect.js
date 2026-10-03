@@ -75,7 +75,11 @@
       render(res);
     });
 
-    function render({ have, learning, notes }) {
+    function render({ have, learning, notes, summary }) {
+      const ai = out.querySelector('.fit-ai');
+      ai.textContent = summary || '';
+      ai.hidden = !summary;
+
       const total = have.length + learning.length;
       out.querySelector('.fit-sum').textContent = total
         ? `I’ve done ${have.length} of the ${total} things I could spot in this post.`
