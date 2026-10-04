@@ -84,6 +84,7 @@
     const input = chat.q;
     const button = chat.querySelector('button');
     const history = [];
+    const cid = crypto.randomUUID ? crypto.randomUUID() : null;
 
     const say = (role, text) => {
       const msg = el('p', text, { class: `msg ${role}` });
@@ -101,7 +102,7 @@
       input.value = '';
       button.disabled = true;
       const typing = say('agent typing', 'Thinking…');
-      const res = await post('/chat', { messages: history });
+      const res = await post('/chat', { cid, messages: history });
       typing.remove();
       button.disabled = false;
       if (!res.ok) {
