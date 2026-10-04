@@ -88,7 +88,11 @@ const $ = q => document.querySelector(q);
   const c = $('.cursor');
   if (still || matchMedia('(hover: none)').matches) return c.remove();
   let x = -100, y = -100, cx = x, cy = y;
-  addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; c.classList.toggle('big', !!e.target.closest('.zoom')); });
+  const check = el => c.classList.toggle('big', !!el?.closest('.zoom'));
+  addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; check(e.target); });
+  // scrolling moves the page under a still mouse, and no pointer event fires for that
+  addEventListener('scroll', () => check(document.elementFromPoint(x, y)), { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => c.classList.remove('big'));
   (function follow() {
     cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
     c.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
