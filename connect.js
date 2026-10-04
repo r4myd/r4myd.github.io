@@ -1,18 +1,21 @@
 (() => {
-  const API = /(^|\.)r4myd\.com$/.test(location.hostname) ? 'https://r4myd-api.r4myd-api.workers.dev' : 'http://127.0.0.1:8787';
+  const LIVE = /(^|\.)r4myd\.com$/.test(location.hostname);
+  const APIS = LIVE ? ['https://api.r4myd.com', 'https://r4myd-api.r4myd-api.workers.dev'] : ['http://127.0.0.1:8787'];
   const MAIL = 'shriyadav1500@gmail.com';
 
+  // tries the main address first and falls back to the second if it can't be reached at all
   async function post(path, data) {
-    try {
-      const res = await fetch(API + path, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      return await res.json();
-    } catch {
-      return { ok: false, error: `Couldn’t reach the server. Please mail me at ${MAIL}.` };
+    for (const api of APIS) {
+      try {
+        const res = await fetch(api + path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        return await res.json();
+      } catch {}
     }
+    return { ok: false, error: `Couldn’t reach the server. Please mail me at ${MAIL}.` };
   }
 
   function el(tag, text, attrs = {}) {
