@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=20261004c">
+<link rel="stylesheet" href="../style.css?v=20261004d">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="/img/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -84,6 +84,7 @@
   <div class="wrap">
     <div class="bar"><a href="../">Ram Yadav</a><a href="../">← Back to the portfolio</a></div>
     <span class="tag">You probably got here from my email</span>
+    <a class="ask-jump" href="#ask">Ask it about me ↓</a>
     <h1>Job Agent</h1>
     <p class="lead">Automating repetitive work is what I do for a living. It would be strange to run my own job search by hand.</p>
     <div class="log" aria-hidden="true"></div>
@@ -97,6 +98,54 @@
     <p>A job search is mostly the kind of work I automate for others: checking the same boards every day, sorting mail, typing the same details into one form after another. So I gave that part to an agent.</p>
     <p>The time it saves goes into the part a machine shouldn’t do: picking the companies I actually want, fixing drafts that don’t sound like me, and getting ready for the calls. I set the rules for which roles it goes after and who it may write to, every portal application waits for my yes, and your reply comes straight to me.</p>
     <p class="why-last">If you’re hiring someone to automate your team’s work, this is the most honest sample I have: a real problem, a working system, and I use it every day.</p>
+  </div>
+</section>
+
+<section class="wrap ja ask reveal" id="ask">
+  <h2 class="section-title">Ask my agent</h2>
+  <p class="intro">It knows what I’ve built and what I’m looking for. Ask it what a recruiter would ask, or paste a job post to see where I fit.</p>
+  <div class="ask-tabs" role="tablist">
+    <button type="button" role="tab" id="tab-chat" aria-controls="pane-chat" aria-selected="true">Ask about me</button>
+    <button type="button" role="tab" id="tab-fit" aria-controls="pane-fit" aria-selected="false" tabindex="-1">Check a job post</button>
+  </div>
+
+  <div class="ask-pane chat" id="pane-chat" role="tabpanel" aria-labelledby="tab-chat">
+    <div class="chat-log" aria-live="polite">
+      <p class="msg agent">Hi, I’m Ram’s agent. Ask me about his work, what he’s looking for, or when he can start.</p>
+    </div>
+    <div class="chat-chips">
+      <button type="button">What has he built?</button>
+      <button type="button">Is he open to remote work?</button>
+      <button type="button">What’s his notice period?</button>
+      <button type="button">Why automation?</button>
+    </div>
+    <form class="chat-form" novalidate>
+      <label for="chat-q" class="sr">Your question</label>
+      <input id="chat-q" name="q" maxlength="600" autocomplete="off" placeholder="Ask something about Ram…">
+      <button class="btn" type="submit">Ask</button>
+    </form>
+    <p class="form-note chat-note" role="status"></p>
+  </div>
+
+  <div class="ask-pane" id="pane-fit" role="tabpanel" aria-labelledby="tab-fit" hidden>
+    <form class="fit-form" novalidate>
+      <label for="fit-jd" class="sr">Job description</label>
+      <textarea id="fit-jd" name="jd" rows="7" maxlength="12000" placeholder="Paste the job description here…" required></textarea>
+      <div class="fit-row">
+        <button class="btn" type="submit">Check the fit</button>
+        <p class="form-note" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    <div class="fit-out" hidden>
+      <p class="fit-sum"></p>
+      <p class="fit-ai" hidden></p>
+      <div class="fit-cols">
+        <div><h3>Done before</h3><ul class="fit-have"></ul></div>
+        <div class="fit-learn-col"><h3>Would learn</h3><ul class="fit-learn"></ul><p class="fit-learn-note"></p></div>
+      </div>
+      <ul class="fit-notes"></ul>
+      <p class="fit-next"><a class="btn" href="../?kind=hire#contact">Talk about this role</a> <a class="btn ghost" href="../resume.pdf" target="_blank" rel="noopener">Resume</a></p>
+    </div>
   </div>
 </section>
 
@@ -214,6 +263,7 @@
   next();
 })();
 </script>
+<script src="../connect.js?v=20261004d" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "8d06e799ebae47a8966e0bc18af4d934"}'></script>
 </body>
 </html>

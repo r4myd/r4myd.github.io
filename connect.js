@@ -22,7 +22,7 @@
     return node;
   }
 
-  // contact form
+  // contact form (home page)
   const form = document.querySelector('.contact-form');
   if (form) {
     const note = form.querySelector('.form-note');
@@ -31,7 +31,7 @@
       form.dataset.kind = kind;
       form.querySelector(`input[name=kind][value=${kind}]`).checked = true;
     };
-    setKind('project');
+    setKind(new URLSearchParams(location.search).get('kind') === 'hire' ? 'hire' : 'project');
     form.addEventListener('change', e => { if (e.target.name === 'kind') setKind(e.target.value); });
     form.addEventListener('input', () => { note.textContent = ''; });
 
@@ -53,6 +53,72 @@
     });
   }
 
+  // chat / job post tabs (agent page)
+  const tabs = [...document.querySelectorAll('.ask-tabs [role=tab]')];
+  const showTab = tab => {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => showTab(tab));
+    tab.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      showTab(next);
+      next.focus();
+    });
+  });
+
+  // chat
+  const chat = document.querySelector('.chat-form');
+  if (chat) {
+    const log = document.querySelector('.chat-log');
+    const note = document.querySelector('.chat-note');
+    const input = chat.q;
+    const button = chat.querySelector('button');
+    const history = [];
+
+    const say = (role, text) => {
+      const msg = el('p', text, { class: `msg ${role}` });
+      log.append(msg);
+      log.scrollTop = log.scrollHeight;
+      return msg;
+    };
+
+    const ask = async text => {
+      const q = text.trim();
+      if (!q || button.disabled) return;
+      note.textContent = '';
+      say('user', q);
+      history.push({ role: 'user', text: q });
+      input.value = '';
+      button.disabled = true;
+      const typing = say('agent typing', 'Thinking…');
+      const res = await post('/chat', { messages: history });
+      typing.remove();
+      button.disabled = false;
+      if (!res.ok) {
+        history.pop();
+        note.textContent = res.error;
+        return;
+      }
+      say('agent', res.reply);
+      history.push({ role: 'agent', text: res.reply });
+      input.focus({ preventScroll: true });
+    };
+
+    chat.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
+    document.querySelectorAll('.chat-chips button').forEach(chip => chip.addEventListener('click', () => {
+      chip.remove();
+      ask(chip.textContent);
+    }));
+    if (location.hash === '#ask') setTimeout(() => input.focus({ preventScroll: true }), 500);
+  }
+
   // fit check
   const fit = document.querySelector('.fit-form');
   if (fit) {
@@ -60,9 +126,6 @@
     const note = fit.querySelector('.form-note');
     const button = fit.querySelector('button[type=submit]');
     fit.addEventListener('input', () => { note.textContent = ''; });
-    document.querySelectorAll('a[href="#fit"]').forEach(a => a.addEventListener('click', () => {
-      setTimeout(() => fit.jd.focus({ preventScroll: true }), 600);
-    }));
 
     fit.addEventListener('submit', async e => {
       e.preventDefault();
@@ -85,17 +148,16 @@
         ? `I’ve done ${have.length} of the ${total} things I could spot in this post.`
         : 'I couldn’t pick out specific skills. Try pasting the requirements part of the post.';
 
-      const haveList = out.querySelector('.fit-have');
-      haveList.replaceChildren(...have.map(h => {
+      out.querySelector('.fit-have').replaceChildren(...have.map(h => {
         const li = el('li');
         li.append(el('strong', h.label), el('span', h.proof));
         const external = /^https?:/.test(h.href);
-        li.append(el('a', 'See it', external ? { href: h.href, target: '_blank', rel: 'noopener' } : { href: h.href }));
+        const href = h.href.startsWith('#') ? '/' + h.href : h.href;
+        li.append(el('a', 'See it', external ? { href, target: '_blank', rel: 'noopener' } : { href }));
         return li;
       }));
 
-      const learnList = out.querySelector('.fit-learn');
-      learnList.replaceChildren(...learning.map(l => el('li', l.label)));
+      out.querySelector('.fit-learn').replaceChildren(...learning.map(l => el('li', l.label)));
       out.querySelector('.fit-learn-note').textContent = learning[0]?.note || '';
       out.querySelector('.fit-learn-col').hidden = !learning.length;
       out.querySelector('.fit-notes').replaceChildren(...notes.map(n => el('li', n)));
