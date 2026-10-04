@@ -108,7 +108,18 @@
       }
       say('agent', res.reply);
       history.push({ role: 'agent', text: res.reply });
+      if (res.booking) showBooking(res.booking);
       input.focus({ preventScroll: true });
+    };
+
+    const showBooking = b => {
+      const card = el('div', null, { class: 'msg booked' });
+      card.append(el('strong', '✓ Sent to Ram'));
+      const rows = [['Name', b.name], ['Email', b.email], ['Company', b.company], ['Role', b.role], ['Times', b.times], ['Note', b.note]];
+      for (const [k, v] of rows) if (v) card.append(el('span', `${k}: ${v}`));
+      card.append(el('small', 'He’ll confirm the time by email.'));
+      log.append(card);
+      log.scrollTop = log.scrollHeight;
     };
 
     chat.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
