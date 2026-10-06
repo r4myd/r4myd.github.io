@@ -25,6 +25,12 @@
     return node;
   }
 
+  // age in the About section: the server works it out, so the birth date never ships with the page
+  const age = document.querySelector('.age');
+  if (age) {
+    fetch(APIS[0] + '/age').then(r => r.json()).then(d => { if (Number.isInteger(d.age)) age.textContent = d.age; }).catch(() => {});
+  }
+
   // contact form (home page)
   const form = document.querySelector('.contact-form');
   if (form) {
