@@ -148,7 +148,7 @@ figcaption { font: .9rem/1.45 var(--sans); color: var(--muted); margin-top: 12px
 
 /* ---------- smaller builds ---------- */
 .more, .build, .path { padding: 110px 0 20px; }
-.tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+.tools { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 40px; }
 .tools article { --t: var(--pink); padding: 28px; border-radius: 22px; background: var(--panel); border: 1px solid var(--rule); position: relative; overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s; }
 .tools article:nth-child(2) { --t: var(--turq); } .tools article:nth-child(3) { --t: var(--violet); }
 .tools article:nth-child(4) { --t: var(--saffron); } .tools article:nth-child(5) { --t: var(--blue); } .tools article:nth-child(6) { --t: var(--marigold); }

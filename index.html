@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
 <script>try{if(sessionStorage.getItem('booted')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('booted')}catch(e){}</script>
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}</script>
-<link rel="stylesheet" href="style.css?v=20261004h">
+<link rel="stylesheet" href="style.css?v=20261006a">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="/img/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -65,7 +65,7 @@
   <dl class="hero-stats wrap">
     <div><dt>Lender portals filled from one Excel file</dt><dd data-count="8">8</dd></div>
     <div><dt>Land rates searchable offline</dt><dd data-count="63775">63,775</dd></div>
-    <div><dt>Folders sorted in a single day</dt><dd>2–3 lakh</dd></div>
+    <div><dt>Folders matched in under two weeks</dt><dd>2–3 lakh</dd></div>
   </dl>
 </section>
 
@@ -256,13 +256,10 @@
 <section class="wrap more reveal">
   <h2 class="section-title">Smaller builds</h2>
   <div class="tools">
-    <article><h3>Folder matcher</h3><p>Matched 2–3 lakh folders against a spreadsheet by normalising messy names and matching patterns. Anything with two possible matches went to a person instead of being guessed.</p><p class="stack">Python, pandas</p></article>
     <article><h3>Portal bulk upload</h3><p>Fills a portal’s bulk-upload sheet with validated values, checks for duplicates, uploads it, then confirms every row actually arrived.</p><p class="stack">Python, requests, openpyxl</p></article>
     <article><h3>Digital signing queue</h3><p>Signs PDFs with a USB signature token from a queue with approval. It checks the token’s certificate before sending the PIN, so a wrong token can never get locked.</p><p class="stack">Python, pyHanko, PKCS#11</p></article>
     <article><h3>Invoice automation</h3><p>Watches case folders, works out each fee from its slab, fills the invoice and keeps the register in step. Built so that one case can only ever produce one invoice.</p><p class="stack">Python, openpyxl</p></article>
     <article><h3>Map image makers</h3><p>Coordinate in, ready-to-use map out: a plan-map crop or a satellite view with the same pin, legend and scale bar.</p><p class="stack">Python, Pillow, KML</p></article>
-    <article><h3>Safe push to a shared server</h3><p>Pushes finished files to the office server and keeps a ledger of every push. If someone changed the file on the server in the meantime, the push stops instead of writing over their work.</p><p class="stack">PowerShell</p></article>
-    <article><h3>Nearby records and RERA</h3><p>Finds the closest of 31,500 past records to any point, and pulls every RERA project in Jaipur into a sheet and Google Earth.</p><p class="stack">Python, SQLite</p></article>
   </div>
 </section>
 
@@ -305,9 +302,8 @@
   </figure>
   <div class="about-copy">
     <h2 class="section-title">Hi, I’m Ram.</h2>
-    <p>I’m 21 and I live in Jaipur. I studied maths and physics, and my first job was data entry.</p>
+    <p>I live in Jaipur. I studied maths and physics, and my first job was data entry.</p>
     <p>That’s where I got hooked on one question: why is a person doing this by hand, every single day? I’ve been answering it ever since, first with scripts, then with portal runners, map tools and agent workflows.</p>
-    <p>I work best on real, messy processes. I sit with the people who run them, write down the rules they follow without noticing, and turn those rules into something that runs on its own and says so when it isn’t sure.</p>
   </div>
 </section>
 
@@ -316,7 +312,7 @@
   <h2 class="section-title">How I got here</h2>
   <ol class="timeline">
     <li><p class="when">2024</p><h3>Six months of folder sorting, done in two weeks</h3><p>My first job was data entry. Handed 2–3 lakh folders to match against a spreadsheet by hand, I wrote a script that matched the messy names instead and finished in under two weeks.</p></li>
-    <li><p class="when">2025</p><h3>New field, first month</h3><p>Moved into GIS without knowing QGIS or ArcGIS. Learned both in the first month, then automated about 70% of the production pipeline and trained eight new people on it.</p></li>
+    <li><p class="when">2025</p><h3>New field, first month</h3><p>Moved into GIS with no prior GIS software experience. Learned it in the first month, then automated about 70% of the production pipeline and trained new team members on it.</p></li>
     <li><p class="when">2026</p><h3>Portals, agents and internal tools</h3><p>Now I build portal runners, agent workflows and the tools a team uses every day. My degree is a B.Sc.-B.Ed. in Mathematics and Physics; the rest I learned by building.</p></li>
   </ol>
 </section>
@@ -354,7 +350,7 @@
 </main>
 
 <footer class="wrap foot">
-  <p>© 2026 Ram Yadav. Screenshots use sample data; client names and source code stay private.</p>
+  <p>© 2026 Ram Yadav</p>
   <nav class="foot-links">
     <a class="resume-btn" href="resume.pdf" target="_blank" rel="noopener">Resume <span aria-hidden="true">↗</span></a>
     <a href="privacy.html">Privacy</a>
@@ -367,10 +363,10 @@
   <img alt="">
 </dialog>
 
-<script src="theme.js?v=20261004h" defer></script>
-<script src="connect.js?v=20261004h" defer></script>
-<script type="module" src="main.js?v=20261004h"></script>
-<script type="module" src="room.js?v=20261004h"></script>
+<script src="theme.js?v=20261006a" defer></script>
+<script src="connect.js?v=20261006a" defer></script>
+<script type="module" src="main.js?v=20261006a"></script>
+<script type="module" src="room.js?v=20261006a"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "8d06e799ebae47a8966e0bc18af4d934"}'></script>
 </body>
 </html>
